@@ -6,6 +6,8 @@ export type TFindByInput = Partial<Prisma.ProductWhereInput> & {
 
 export type TFindManyByInput = Prisma.ProductWhereInput;
 
+export type TOrderBy = Prisma.ProductOrderByWithRelationInput;
+
 export type TCreateInput = Omit<Prisma.ProductCreateInput, 'image' | 'rate'> & {
   image?: Express.Multer.File;
 };

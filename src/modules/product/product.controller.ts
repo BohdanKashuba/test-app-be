@@ -19,6 +19,7 @@ import { ProductDto, UpdateProductDto } from './dto/product.dto';
 import { Request } from 'express';
 import { getSearchFilters } from 'src/common/functions/getSeatchFilters';
 import { IMAGE_IS_REQUIRED } from 'src/common/messages/exceptions';
+import { getByOrder } from './functions/getByOrder';
 
 @Controller('product')
 export class ProductController {
@@ -55,18 +56,21 @@ export class ProductController {
       },
     });
 
-    return await this.productService.findManyBy({
-      name: {
-        contains: filter.name,
+    return await this.productService.findManyBy(
+      {
+        name: {
+          contains: filter.name,
+        },
+        rate: {
+          gte: filter.rate,
+        },
+        price: {
+          gte: filter.price.start,
+          lte: filter.price.end,
+        },
       },
-      rate: {
-        gte: filter.rate,
-      },
-      price: {
-        gte: filter.price.start,
-        lte: filter.price.end,
-      },
-    });
+      getByOrder(filter.sort),
+    );
   }
 
   @Get(':id')

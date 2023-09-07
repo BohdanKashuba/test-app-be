@@ -8,6 +8,7 @@ import {
   TCreateInput,
   TFindByInput,
   TFindManyByInput,
+  TOrderBy,
   TUpdateInput,
 } from './types/product.prop-types.type';
 import { FileService } from 'src/file/file.service';
@@ -23,8 +24,11 @@ export class ProductService {
     return await this.databaseService.product.findFirst({ where });
   }
 
-  async findManyBy(where?: TFindManyByInput) {
-    return await this.databaseService.product.findMany({ where });
+  async findManyBy(where?: TFindManyByInput, orderBy?: TOrderBy) {
+    return await this.databaseService.product.findMany({
+      where,
+      orderBy,
+    });
   }
 
   async create(data: TCreateInput) {
@@ -48,16 +52,13 @@ export class ProductService {
 
     const uploadData = { ...data, image };
 
-    console.log(uploadData.rate);
-
     const product = await this.databaseService.product
       .update({
         data: uploadData,
         where: { id },
       })
-      .catch((e) => {
-        // this.fileService.destroy(image);
-        console.log(e);
+      .catch(() => {
+        this.fileService.destroy(image);
 
         throw new InternalServerErrorException();
       });
