@@ -1,4 +1,8 @@
-import { Inject, Injectable } from '@nestjs/common';
+import {
+  Inject,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { DatabaseService } from 'src/shared/database/database.service';
 import {
   TCreateInput,
@@ -6,11 +10,13 @@ import {
   TFindManyByInput,
   TUpdateInput,
 } from './types/product.prop-types.type';
+import { FileService } from 'src/file/file.service';
 
 @Injectable()
 export class ProductService {
   constructor(
     @Inject(DatabaseService) private readonly databaseService: DatabaseService,
+    @Inject(FileService) private readonly fileService: FileService,
   ) {}
 
   async findBy(where: TFindByInput) {
@@ -18,25 +24,56 @@ export class ProductService {
   }
 
   async findManyBy(where?: TFindManyByInput) {
-    return await this.databaseService.product.findFirst({ where });
+    return await this.databaseService.product.findMany({ where });
   }
 
   async create(data: TCreateInput) {
-    const creationData = { ...data, image: '', rate: 0 };
+    const image = this.fileService.upload(data.image);
+
+    const creationData = { ...data, image, rate: 0 };
 
     return await this.databaseService.product.create({ data: creationData });
   }
 
   async update(id: string, data: TUpdateInput) {
-    const creationData = { ...data, image: '' };
-
-    return await this.databaseService.product.update({
-      data: creationData,
+    const oldProduct = await this.databaseService.product.findFirst({
       where: { id },
     });
+
+    let image: string;
+
+    if (data.image) {
+      image = this.fileService.upload(data.image);
+    }
+
+    const uploadData = { ...data, image };
+
+    console.log(uploadData.rate);
+
+    const product = await this.databaseService.product
+      .update({
+        data: uploadData,
+        where: { id },
+      })
+      .catch((e) => {
+        // this.fileService.destroy(image);
+        console.log(e);
+
+        throw new InternalServerErrorException();
+      });
+
+    if (image && oldProduct.image) {
+      this.fileService.destroy(oldProduct.image);
+    }
+
+    return product;
   }
 
   async delete(id: string) {
-    await this.databaseService.product.findFirst({ where: { id } });
+    const product = await this.databaseService.product.delete({
+      where: { id },
+    });
+
+    this.fileService.destroy(product.image);
   }
 }

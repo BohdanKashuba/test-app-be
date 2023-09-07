@@ -60,7 +60,7 @@ export class ProductController {
         contains: filter.name,
       },
       rate: {
-        equals: filter.rate,
+        gte: filter.rate,
       },
       price: {
         gte: filter.price.start,
@@ -94,13 +94,17 @@ export class ProductController {
     @Body() dto: UpdateProductDto,
     @UploadedFile() file: Express.Multer.File,
   ) {
-    const rate = parseFloat(dto.rate);
+    const rate = dto.rate ? parseFloat(dto.rate) : undefined;
 
-    if (isNaN(rate)) {
+    if (isNaN(rate) && dto.rate) {
       throw new UnprocessableEntityException();
     }
 
-    return await this.productService.update(id, { ...dto, image: file, rate });
+    return await this.productService.update(id, {
+      ...dto,
+      image: file,
+      rate,
+    });
   }
 
   @Delete(':id')
