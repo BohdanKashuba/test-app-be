@@ -22,4 +22,14 @@ model Product {
   price       Decimal @db.Money
   description String  @db.Text
   tags        Tag[]
+  User        User?   @relation(fields: [userId], references: [id])
+  userId      String? @db.Uuid
+}
+
+model User {
+  id       String    @id @unique @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name     String
+  email    String    @unique
+  password String
+  watches  Product[]
 }
