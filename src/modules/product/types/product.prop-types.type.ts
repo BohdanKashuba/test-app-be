@@ -10,8 +10,8 @@ export type TOrderBy = Prisma.ProductOrderByWithRelationInput;
 
 export type TCreateInput = Omit<Prisma.ProductCreateInput, 'image' | 'rate'> & {
   image?: Express.Multer.File;
-};
+} & { tags?: string[] };
 
 export type TUpdateInput = Omit<Prisma.ProductUpdateInput, 'image'> & {
   image?: Express.Multer.File;
-};
+} & { tags?: string[] };

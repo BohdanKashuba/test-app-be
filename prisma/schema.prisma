@@ -8,6 +8,12 @@ datasource db {
   directUrl = env("POSTGRES_URL_NON_POOLING")
 }
 
+model Tag {
+  id       String    @id @unique @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name     String    @unique @db.VarChar(50)
+  products Product[]
+}
+
 model Product {
   id          String  @id @unique @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   image       String
@@ -15,4 +21,5 @@ model Product {
   rate        Float   @db.Real
   price       Decimal @db.Money
   description String  @db.Text
+  tags        Tag[]
 }

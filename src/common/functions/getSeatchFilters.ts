@@ -14,12 +14,18 @@ export const getSearchFilters = (schema: TSchema) => {
       return [...arr, [key, parseFloat(value.value.toString())]];
     }
 
+    if (value.type === 'array') {
+      return [...arr, [key, (value.value as string).split(',')]];
+    }
+
     if (Object.values(value ?? {}).length) {
       return [...arr, [key, getSearchFilters(value as TSchema)]];
     }
 
     return arr;
   }, []);
+
+  console.log(obj);
 
   return Object.fromEntries(obj);
 };

@@ -1,5 +1,6 @@
 import { Expose, Transform } from 'class-transformer';
 import {
+  IsArray,
   IsNumber,
   IsOptional,
   IsString,
@@ -23,6 +24,10 @@ export class ProductDto {
   @IsString()
   @MinLength(1)
   description: string;
+
+  @IsArray()
+  @Transform(({ value }) => JSON.parse(value ?? null))
+  tags: string;
 }
 
 export class UpdateProductDto extends PartialType(ProductDto) {

@@ -32,9 +32,9 @@ export class ProductController {
     const qs = req.query;
 
     const filter = getSearchFilters({
-      name: {
+      keywords: {
         type: 'string',
-        value: qs?.name?.toString(),
+        value: qs?.keywords?.toString(),
       },
       rate: {
         type: 'number',
@@ -54,12 +54,17 @@ export class ProductController {
         type: 'string',
         value: qs?.sortBy?.toString(),
       },
+      tags: {
+        type: 'array',
+        value: qs?.tags?.toString().length ? qs?.tags?.toString() : undefined,
+      },
     });
 
     return await this.productService.findManyBy(
       {
         name: {
-          contains: filter.name,
+          contains: filter.keywords,
+          mode: 'insensitive',
         },
         rate: {
           gte: filter.rate,
@@ -67,6 +72,13 @@ export class ProductController {
         price: {
           gte: filter.price.start,
           lte: filter.price.end,
+        },
+        tags: {
+          some: {
+            id: {
+              in: filter.tags,
+            },
+          },
         },
       },
       getByOrder(filter.sort),
@@ -88,7 +100,13 @@ export class ProductController {
       throw new UnprocessableEntityException(IMAGE_IS_REQUIRED);
     }
 
-    return await this.productService.create({ ...dto, image: file });
+    const tags = JSON.parse(dto?.tags ?? null);
+
+    return await this.productService.create({
+      ...dto,
+      image: file,
+      tags: tags as string[] | undefined,
+    });
   }
 
   @Put(':id')
@@ -104,10 +122,13 @@ export class ProductController {
       throw new UnprocessableEntityException();
     }
 
+    const tags = JSON.parse(dto?.tags ?? null);
+
     return await this.productService.update(id, {
       ...dto,
       image: file,
       rate,
+      tags: tags as string[] | undefined,
     });
   }
 

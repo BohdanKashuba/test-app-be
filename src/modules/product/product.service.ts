@@ -34,9 +34,16 @@ export class ProductService {
   async create(data: TCreateInput) {
     const image = this.fileService.upload(data.image);
 
-    const creationData = { ...data, image, rate: 0 };
+    const creationData = {
+      ...data,
+      image,
+      rate: 0,
+      tags: data?.tags.map((t) => ({ id: t })) ?? [],
+    };
 
-    return await this.databaseService.product.create({ data: creationData });
+    return await this.databaseService.product.create({
+      data: { ...creationData, tags: { connect: creationData.tags } },
+    });
   }
 
   async update(id: string, data: TUpdateInput) {
@@ -50,11 +57,15 @@ export class ProductService {
       image = this.fileService.upload(data.image);
     }
 
-    const uploadData = { ...data, image };
+    const uploadData = {
+      ...data,
+      image,
+      tags: data?.tags.map((t) => ({ id: t })),
+    };
 
     const product = await this.databaseService.product
       .update({
-        data: uploadData,
+        data: { ...uploadData, tags: { set: uploadData.tags } },
         where: { id },
       })
       .catch(() => {

@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import path from 'path';
 import { ProductModule } from '../product/product.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
+import { TagsModule } from '../tags/tags.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
       rootPath: path.join(process.cwd(), 'public'),
       serveRoot: '/api/v1',
     }),
+    TagsModule,
   ],
 })
 export class AppModule {}
