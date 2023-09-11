@@ -10,12 +10,12 @@ export class FileService {
     const filename = uuid() + ext;
     const fileUrl = path.join('images', filename);
 
-    fs.writeFileSync(path.join(process.cwd(), 'public', fileUrl), file.buffer);
+    fs.writeFileSync(path.join(process.cwd(), 'tmp', fileUrl), file.buffer);
 
     return fileUrl;
   }
 
   destroy(fileUrl: string) {
-    fs.unlinkSync(path.join(process.cwd(), 'public', fileUrl));
+    fs.unlinkSync(path.join(process.cwd(), 'tmp', fileUrl));
   }
 }

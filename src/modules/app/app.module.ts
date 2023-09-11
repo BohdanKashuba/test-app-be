@@ -18,7 +18,7 @@ import { HashModule } from '../hash/hash.module';
     }),
     ProductModule,
     ServeStaticModule.forRoot({
-      rootPath: path.join(process.cwd(), 'public'),
+      rootPath: path.join(process.cwd(), 'tmp'),
       serveRoot: '/api/v1',
     }),
     TagsModule,
