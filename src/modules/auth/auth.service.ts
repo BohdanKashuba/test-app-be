@@ -50,11 +50,13 @@ export class AuthService {
 
     const newUser = await this.userService.create({ ...data, password: pass });
 
+    const tokens = this.generateTokens(user);
+
     delete newUser.password;
 
     return {
       user: newUser,
-      tokens: this.generateTokens(newUser),
+      tokens,
     };
   }
 
@@ -74,11 +76,13 @@ export class AuthService {
       throw new UnprocessableEntityException(INVALID_CREDS);
     }
 
+    const tokens = this.generateTokens(user);
+
     delete user.password;
 
     return {
       user: user,
-      tokens: this.generateTokens(user),
+      tokens,
     };
   }
 
@@ -87,7 +91,8 @@ export class AuthService {
 
     try {
       this.jwtService.verify(token, { secret });
-    } catch {
+    } catch (e) {
+      console.log(e);
       throw new UnauthorizedException();
     }
 
@@ -105,11 +110,13 @@ export class AuthService {
       throw new UnauthorizedException();
     }
 
+    const tokens = this.generateTokens(user);
+
     delete user.password;
 
     return {
       user: user,
-      tokens: this.generateTokens(user),
+      tokens,
     };
   }
 }
