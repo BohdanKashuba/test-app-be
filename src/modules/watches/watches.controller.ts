@@ -6,11 +6,14 @@ import {
   Param,
   ParseUUIDPipe,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import { WatchesService } from './watches.service';
 import { WatchDto } from './dto/watches.dto';
+import { AuthGuard } from 'src/common/guards/auth.guard';
 
 @Controller('watches')
+@UseGuards(AuthGuard)
 export class WatchesController {
   constructor(
     @Inject(WatchesService) private readonly watchesService: WatchesService,

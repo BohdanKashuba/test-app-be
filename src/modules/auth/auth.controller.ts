@@ -5,7 +5,6 @@ import {
   Inject,
   InternalServerErrorException,
   Post,
-  Query,
   Req,
   Res,
   UnauthorizedException,
