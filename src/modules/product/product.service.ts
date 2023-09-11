@@ -3,7 +3,7 @@ import {
   Injectable,
   InternalServerErrorException,
 } from '@nestjs/common';
-import { DatabaseService } from 'src/shared/database/database.service';
+import { DatabaseService } from '../../shared/database/database.service';
 import {
   TCreateInput,
   TFindByInput,
@@ -11,7 +11,7 @@ import {
   TOrderBy,
   TUpdateInput,
 } from './types/product.prop-types.type';
-import { FileService } from 'src/shared/file/file.service';
+import { FileService } from '../../shared/file/file.service';
 
 @Injectable()
 export class ProductService {

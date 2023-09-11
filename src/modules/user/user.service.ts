@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { DatabaseService } from 'src/shared/database/database.service';
+import { DatabaseService } from '../../shared/database/database.service';
 import {
   TCreateInput,
   TFindByInput,

@@ -7,7 +7,7 @@ import { TagsModule } from '../tags/tags.module';
 import { AuthModule } from '../auth/auth.module';
 import { WatchesModule } from '../watches/watches.module';
 import { JwtModule } from '@nestjs/jwt';
-import { DatabaseModule } from 'src/shared/database/database.module';
+import { DatabaseModule } from '../../shared/database/database.module';
 import { HashModule } from '../hash/hash.module';
 
 @Module({

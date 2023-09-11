@@ -9,7 +9,7 @@ import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
 import { TUser } from '../../modules/user/types/user.type';
 import { DatabaseService } from '../../shared/database/database.service';
-import { HashService } from 'src/modules/hash/hash.service';
+import { HashService } from '../../modules/hash/hash.service';
 
 export class AuthGuard implements CanActivate {
   constructor(

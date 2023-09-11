@@ -2,8 +2,8 @@ import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import {
   PRODUCT_IS_NOT_EXISTS,
   USER_IS_NOT_EXISTS,
-} from 'src/common/messages/exceptions';
-import { DatabaseService } from 'src/shared/database/database.service';
+} from '../../common/messages/exceptions';
+import { DatabaseService } from '../../shared/database/database.service';
 
 @Injectable()
 export class WatchesService {

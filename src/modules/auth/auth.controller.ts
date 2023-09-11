@@ -13,7 +13,7 @@ import { AuthService } from './auth.service';
 import { LoginDto, SignUpDto } from './dto/auth.dto';
 import { Request, Response } from 'express';
 import { ConfigService } from '@nestjs/config';
-import { INVALID_COOKIES_TTL } from 'src/common/messages/exceptions';
+import { INVALID_COOKIES_TTL } from '../../common/messages/exceptions';
 
 @Controller('auth')
 export class AuthController {

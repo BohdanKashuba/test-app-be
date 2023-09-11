@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 import { WatchesService } from './watches.service';
 import { WatchDto } from './dto/watches.dto';
-import { AuthGuard } from 'src/common/guards/auth.guard';
+import { AuthGuard } from '../../common/guards/auth.guard';
 
 @Controller('watches')
 @UseGuards(AuthGuard)

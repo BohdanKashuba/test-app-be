@@ -17,8 +17,8 @@ import { ProductService } from './product.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ProductDto, UpdateProductDto } from './dto/product.dto';
 import { Request } from 'express';
-import { getSearchFilters } from 'src/common/functions/getSeatchFilters';
-import { IMAGE_IS_REQUIRED } from 'src/common/messages/exceptions';
+import { getSearchFilters } from '../../common/functions/getSeatchFilters';
+import { IMAGE_IS_REQUIRED } from '../../common/messages/exceptions';
 import { getByOrder } from './functions/getByOrder';
 
 @Controller('product')
