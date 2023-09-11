@@ -85,6 +85,13 @@ export class ProductController {
     );
   }
 
+  @Get('filters')
+  async getFiltersHandler() {
+    const filters = await this.productService.receiveFilters();
+
+    return filters;
+  }
+
   @Get(':id')
   async getProductByIdHandler(@Param('id', ParseUUIDPipe) id: string) {
     return await this.productService.findBy({ id });

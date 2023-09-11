@@ -88,4 +88,25 @@ export class ProductService {
 
     this.fileService.destroy(product.image);
   }
+
+  async receiveFilters() {
+    const maxPrice = await this.databaseService.product.aggregate({
+      _max: {
+        price: true,
+      },
+    });
+
+    const minPrice = await this.databaseService.product.aggregate({
+      _min: {
+        price: true,
+      },
+    });
+
+    return {
+      price: {
+        max: maxPrice._max.price,
+        min: minPrice._min.price,
+      },
+    };
+  }
 }

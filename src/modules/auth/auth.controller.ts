@@ -83,5 +83,6 @@ export class AuthController {
   @Post('logout')
   async logoutHandler(@Res({ passthrough: true }) res: Response) {
     res.clearCookie('refresh-token');
+    res.json({ status: 200 });
   }
 }
