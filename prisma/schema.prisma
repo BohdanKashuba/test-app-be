@@ -10,14 +10,14 @@ datasource db {
 
 model Tag {
   id       String    @id @unique @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name     String    @unique @db.VarChar(50)
+  name     String    @unique @db.Text
   products Product[]
 }
 
 model Product {
   id          String  @id @unique @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   image       String
-  name        String  @db.VarChar(50)
+  name        String  @db.Text
   rate        Float   @db.Real
   price       Decimal @db.Money
   description String  @db.Text
@@ -27,7 +27,7 @@ model Product {
 
 model User {
   id       String    @id @unique @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name     String
+  name     String    @db.Text
   email    String    @unique
   password String
   watches  Product[]
