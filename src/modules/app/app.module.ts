@@ -4,6 +4,7 @@ import path from 'path';
 import { ProductModule } from '../product/product.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { TagsModule } from '../tags/tags.module';
+import { AuthModule } from '../auth/auth.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { TagsModule } from '../tags/tags.module';
       serveRoot: '/api/v1',
     }),
     TagsModule,
+    AuthModule,
   ],
 })
 export class AppModule {}

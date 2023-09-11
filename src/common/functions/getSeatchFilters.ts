@@ -25,7 +25,5 @@ export const getSearchFilters = (schema: TSchema) => {
     return arr;
   }, []);
 
-  console.log(obj);
-
   return Object.fromEntries(obj);
 };

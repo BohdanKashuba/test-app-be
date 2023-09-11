@@ -79,6 +79,14 @@ export class AuthService {
   }
 
   async validateUser(token: string) {
+    const secret = this.configService.getOrThrow('JWT_SECRET');
+
+    try {
+      this.jwtService.verify(token, { secret });
+    } catch {
+      throw new UnauthorizedException();
+    }
+
     const data = this.jwtService.decode(token) as Partial<TUser>;
 
     const user = await this.userService.findBy({ email: data?.email });
@@ -87,10 +95,7 @@ export class AuthService {
       throw new UnauthorizedException();
     }
 
-    const isValidPass = await this.hashService.compare(
-      data?.password,
-      user.password,
-    );
+    const isValidPass = data?.password === user.password;
 
     if (!isValidPass) {
       throw new UnauthorizedException();

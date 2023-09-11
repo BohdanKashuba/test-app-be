@@ -7,6 +7,7 @@ import {
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PORT_EXCEPTION } from './common/messages/exceptions';
+import cookieParser from 'cookie-parser';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -20,9 +21,11 @@ async function bootstrap() {
     throw new InternalServerErrorException(PORT_EXCEPTION);
   }
 
-  app.enableCors({ origin: true });
+  app.enableCors({ origin: true, credentials: true });
   app.enableVersioning({ type: VersioningType.URI, defaultVersion: VERSION });
   app.setGlobalPrefix('api');
+
+  app.use(cookieParser());
 
   app.useGlobalPipes(new ValidationPipe({ errorHttpStatusCode: 422 }));
 
