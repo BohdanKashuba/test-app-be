@@ -50,6 +50,8 @@ export class AuthService {
 
     const newUser = await this.userService.create({ ...data, password: pass });
 
+    delete newUser.password;
+
     return {
       user: newUser,
       tokens: this.generateTokens(newUser),
@@ -71,6 +73,8 @@ export class AuthService {
     if (!isValidPass) {
       throw new UnprocessableEntityException(INVALID_CREDS);
     }
+
+    delete user.password;
 
     return {
       user: user,
@@ -100,6 +104,8 @@ export class AuthService {
     if (!isValidPass) {
       throw new UnauthorizedException();
     }
+
+    delete user.password;
 
     return {
       user: user,

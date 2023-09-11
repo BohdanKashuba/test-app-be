@@ -6,6 +6,7 @@ import {
   TFindManyByInput,
   TUpdateInput,
 } from './types/user.prop-types.type';
+import { userWatchesSelection } from '../../common/selections/user.selection';
 
 @Injectable()
 export class UserService {
@@ -14,19 +15,32 @@ export class UserService {
   ) {}
 
   async findBy(where: TFindByInput) {
-    return await this.databaseService.user.findFirst({ where });
+    return await this.databaseService.user.findFirst({
+      where,
+      select: userWatchesSelection,
+    });
   }
 
   async findManyBy(where?: TFindManyByInput) {
-    return await this.databaseService.user.findMany({ where });
+    return await this.databaseService.user.findMany({
+      where,
+      select: userWatchesSelection,
+    });
   }
 
   async create(data: TCreateInput) {
-    return await this.databaseService.user.create({ data });
+    return await this.databaseService.user.create({
+      data,
+      select: userWatchesSelection,
+    });
   }
 
   async update(id: string, data: TUpdateInput) {
-    return await this.databaseService.user.update({ data, where: { id } });
+    return await this.databaseService.user.update({
+      data,
+      where: { id },
+      select: userWatchesSelection,
+    });
   }
 
   async delete(id: string) {

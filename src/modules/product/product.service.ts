@@ -11,7 +11,7 @@ import {
   TOrderBy,
   TUpdateInput,
 } from './types/product.prop-types.type';
-import { FileService } from 'src/file/file.service';
+import { FileService } from 'src/shared/file/file.service';
 
 @Injectable()
 export class ProductService {

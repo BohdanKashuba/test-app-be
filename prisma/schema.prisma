@@ -22,8 +22,7 @@ model Product {
   price       Decimal @db.Money
   description String  @db.Text
   tags        Tag[]
-  User        User?   @relation(fields: [userId], references: [id])
-  userId      String? @db.Uuid
+  users       User[]
 }
 
 model User {
