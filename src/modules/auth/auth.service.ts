@@ -50,7 +50,7 @@ export class AuthService {
 
     const newUser = await this.userService.create({ ...data, password: pass });
 
-    const tokens = this.generateTokens(user);
+    const tokens = this.generateTokens(newUser);
 
     delete newUser.password;
 

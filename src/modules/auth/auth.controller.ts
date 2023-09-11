@@ -79,4 +79,9 @@ export class AuthController {
       })
       .json({ user: data.user, accessToken: data.tokens.accessToken });
   }
+
+  @Post('logout')
+  async logoutHandler(@Res({ passthrough: true }) res: Response) {
+    res.clearCookie('refresh-token');
+  }
 }
