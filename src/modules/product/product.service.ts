@@ -62,7 +62,7 @@ export class ProductService {
 
     const uploadData = {
       ...data,
-      tags: data?.tags.map((t) => ({ id: t })),
+      tags: data?.tags?.map((t) => ({ id: t })),
     };
 
     const product = await this.databaseService.product
