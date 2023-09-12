@@ -16,13 +16,14 @@ model Tag {
 
 model Product {
   id          String  @id @unique @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  image       String
   name        String  @db.Text
   rate        Float   @db.Real
   price       Decimal @db.Money
   description String  @db.Text
   tags        Tag[]
   users       User[]
+  image       Image   @relation(fields: [imageId], references: [id])
+  imageId     String  @unique @db.Uuid
 }
 
 model User {
@@ -31,4 +32,10 @@ model User {
   email    String    @unique
   password String
   watches  Product[]
+}
+
+model Image {
+  id      String   @id @unique @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  data    Bytes
+  product Product?
 }

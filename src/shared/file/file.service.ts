@@ -1,38 +1,30 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { v4 as uuid } from 'uuid';
-import path from 'path';
-import fs from 'fs';
-import { ConfigService } from '@nestjs/config';
+import { DatabaseService } from '../database/database.service';
 
 @Injectable()
 export class FileService {
   constructor(
-    @Inject(ConfigService) private readonly configService: ConfigService,
+    @Inject(DatabaseService) private readonly databaseService: DatabaseService,
   ) {}
 
-  upload(file: Express.Multer.File) {
-    const ext = path.extname(file.originalname);
-    const filename = uuid() + ext;
-    const fileUrl = path.join('images', filename);
-
-    const nodeEnv = this.configService.get('NODE_ENV');
-
-    if (nodeEnv === 'dev') {
-      fs.writeFileSync(path.join(process.cwd(), 'tmp', fileUrl), file.buffer);
-    } else {
-      fs.writeFileSync(path.join('/tmp', fileUrl), file.buffer);
-    }
-
-    return fileUrl;
+  async findById(id: string) {
+    return await this.databaseService.image.findFirst({ where: { id } });
   }
 
-  destroy(fileUrl: string) {
-    const nodeEnv = this.configService.get('NODE_ENV');
+  async upload(file: Express.Multer.File) {
+    const data = {
+      data: file.buffer,
+    };
 
-    if (nodeEnv === 'dev') {
-      fs.unlinkSync(path.join(process.cwd(), 'tmp', fileUrl));
-    } else {
-      fs.unlinkSync(path.join('/tmp', fileUrl));
-    }
+    const newFile = await this.databaseService.image.create({
+      data,
+      select: { id: true },
+    });
+
+    return newFile.id;
+  }
+
+  async destroy(fileId: string) {
+    await this.databaseService.image.delete({ where: { id: fileId } });
   }
 }

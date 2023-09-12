@@ -32,17 +32,20 @@ export class ProductService {
   }
 
   async create(data: TCreateInput) {
-    const image = this.fileService.upload(data.image);
+    const image = await this.fileService.upload(data.image);
 
     const creationData = {
       ...data,
-      image,
       rate: 0,
       tags: data?.tags.map((t) => ({ id: t })) ?? [],
     };
 
     return await this.databaseService.product.create({
-      data: { ...creationData, tags: { connect: creationData.tags } },
+      data: {
+        ...creationData,
+        tags: { connect: creationData.tags },
+        image: { connect: { id: image } },
+      },
     });
   }
 
@@ -54,18 +57,21 @@ export class ProductService {
     let image: string;
 
     if (data.image) {
-      image = this.fileService.upload(data.image);
+      image = await this.fileService.upload(data.image);
     }
 
     const uploadData = {
       ...data,
-      image,
       tags: data?.tags.map((t) => ({ id: t })),
     };
 
     const product = await this.databaseService.product
       .update({
-        data: { ...uploadData, tags: { set: uploadData.tags } },
+        data: {
+          ...uploadData,
+          tags: { set: uploadData.tags },
+          image: { update: { id: image } },
+        },
         where: { id },
       })
       .catch(() => {
@@ -74,8 +80,8 @@ export class ProductService {
         throw new InternalServerErrorException();
       });
 
-    if (image && oldProduct.image) {
-      this.fileService.destroy(oldProduct.image);
+    if (image && oldProduct.imageId) {
+      this.fileService.destroy(oldProduct.imageId);
     }
 
     return product;
@@ -86,7 +92,7 @@ export class ProductService {
       where: { id },
     });
 
-    this.fileService.destroy(product.image);
+    this.fileService.destroy(product.imageId);
   }
 
   async receiveFilters() {
