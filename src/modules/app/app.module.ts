@@ -9,6 +9,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { DatabaseModule } from '../../shared/database/database.module';
 import { HashModule } from '../hash/hash.module';
 import { FileModule } from '../../shared/file/file.module';
+import { CartModule } from '../cart/cart.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { FileModule } from '../../shared/file/file.module';
     DatabaseModule,
     HashModule,
     FileModule,
+    CartModule,
   ],
 })
 export class AppModule {}

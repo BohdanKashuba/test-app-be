@@ -48,7 +48,11 @@ export class AuthService {
 
     const pass = await this.hashService.encrypt(data.password);
 
-    const newUser = await this.userService.create({ ...data, password: pass });
+    const newUser = await this.userService.create({
+      ...data,
+      password: pass,
+      watches: [],
+    });
 
     const tokens = this.generateTokens(newUser);
 
