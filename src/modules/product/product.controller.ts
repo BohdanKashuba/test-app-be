@@ -11,6 +11,7 @@ import {
   Req,
   UnprocessableEntityException,
   UploadedFile,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { ProductService } from './product.service';
@@ -20,6 +21,7 @@ import { Request } from 'express';
 import { getSearchFilters } from '../../common/functions/getSeatchFilters';
 import { IMAGE_IS_REQUIRED } from '../../common/messages/exceptions';
 import { getByOrder } from './functions/getByOrder';
+import { AdminGuard } from 'src/common/guards/admin.guard';
 
 @Controller('product')
 export class ProductController {
@@ -98,6 +100,7 @@ export class ProductController {
   }
 
   @Post()
+  @UseGuards(AdminGuard)
   @UseInterceptors(FileInterceptor('image'))
   async createProductHandler(
     @Body() dto: ProductDto,
@@ -117,6 +120,7 @@ export class ProductController {
   }
 
   @Put(':id')
+  @UseGuards(AdminGuard)
   @UseInterceptors(FileInterceptor('image'))
   async updateProductHandler(
     @Param('id', ParseUUIDPipe) id: string,
@@ -140,6 +144,7 @@ export class ProductController {
   }
 
   @Delete(':id')
+  @UseGuards(AdminGuard)
   async deleteProductHandler(@Param('id', ParseUUIDPipe) id: string) {
     await this.productService.delete(id);
   }

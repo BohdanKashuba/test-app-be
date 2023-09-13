@@ -8,11 +8,14 @@ import {
   ParseUUIDPipe,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
 import { TagsService } from './tags.service';
 import { TagDto, UpdateTagDto } from './dto/tag.dto';
+import { AdminGuard } from 'src/common/guards/admin.guard';
 
 @Controller('tags')
+@UseGuards(AdminGuard)
 export class TagsController {
   constructor(@Inject(TagsService) private readonly tagsService: TagsService) {}
 
