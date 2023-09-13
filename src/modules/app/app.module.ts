@@ -8,7 +8,7 @@ import { WatchesModule } from '../watches/watches.module';
 import { JwtModule } from '@nestjs/jwt';
 import { DatabaseModule } from '../../shared/database/database.module';
 import { HashModule } from '../hash/hash.module';
-import { FileModule } from 'src/shared/file/file.module';
+import { FileModule } from '../../shared/file/file.module';
 
 @Module({
   imports: [

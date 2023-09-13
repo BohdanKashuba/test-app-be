@@ -12,7 +12,7 @@ import {
 } from '@nestjs/common';
 import { TagsService } from './tags.service';
 import { TagDto, UpdateTagDto } from './dto/tag.dto';
-import { AdminGuard } from 'src/common/guards/admin.guard';
+import { AdminGuard } from '../../common/guards/admin.guard';
 
 @Controller('tags')
 @UseGuards(AdminGuard)

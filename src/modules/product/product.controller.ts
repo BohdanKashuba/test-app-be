@@ -21,7 +21,7 @@ import { Request } from 'express';
 import { getSearchFilters } from '../../common/functions/getSeatchFilters';
 import { IMAGE_IS_REQUIRED } from '../../common/messages/exceptions';
 import { getByOrder } from './functions/getByOrder';
-import { AdminGuard } from 'src/common/guards/admin.guard';
+import { AdminGuard } from '../../common/guards/admin.guard';
 
 @Controller('product')
 export class ProductController {
