@@ -15,7 +15,6 @@ import { TagDto, UpdateTagDto } from './dto/tag.dto';
 import { AdminGuard } from '../../common/guards/admin.guard';
 
 @Controller('tags')
-@UseGuards(AdminGuard)
 export class TagsController {
   constructor(@Inject(TagsService) private readonly tagsService: TagsService) {}
 
@@ -25,16 +24,19 @@ export class TagsController {
   }
 
   @Get(':id')
+  @UseGuards(AdminGuard)
   async findTagHandler(@Param('id', ParseUUIDPipe) id: string) {
     return await this.tagsService.findBy({ id });
   }
 
   @Post()
+  @UseGuards(AdminGuard)
   async createTagHandler(@Body() dto: TagDto) {
     return await this.tagsService.create(dto);
   }
 
   @Put(':id')
+  @UseGuards(AdminGuard)
   async updateTagHandler(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() dto: UpdateTagDto,
@@ -43,6 +45,7 @@ export class TagsController {
   }
 
   @Delete(':id')
+  @UseGuards(AdminGuard)
   async deleteTagHandler(@Param('id', ParseUUIDPipe) id: string) {
     return await this.tagsService.delete(id);
   }
