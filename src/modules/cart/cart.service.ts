@@ -1,11 +1,11 @@
-import { DatabaseService } from 'src/shared/database/database.service';
+import { DatabaseService } from '../../shared/database/database.service';
 import {
   TCreateInput,
   TFindByInput,
   TFindManyByInput,
   TUpdateInput,
 } from './types/cart.prop-types.type';
-import { cartProductsSelection } from 'src/common/selections/cart.selection';
+import { cartProductsSelection } from '../../common/selections/cart.selection';
 import { Inject, Injectable } from '@nestjs/common';
 
 @Injectable()
